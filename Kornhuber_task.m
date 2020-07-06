@@ -36,26 +36,35 @@ timings_end_blocks = zeros(3,1);
 % repeat for 3 blocks, each of 15 minutes (for debugging purposes: 2 sec)
 numberBlocks = 3;
 MAX_TIME_SECONDS = 2;
+first_block = 1;
+second_block = 2;
 
 for block = 1:numberBlocks
     max_time = MAX_TIME_SECONDS + toc;
     j = 1;
-    while toc <= max_time
+    t0 = clock;
+    while etime(clock, t0) < 2
         input('');
         timings_clicks_blocks(j,block) = toc; % end stopwatch and store result in element i
         j = j + 1;
     end
-    if block == 1
-        spaceNextImage(endBlock1Image_texture,startImage_texture,window_pointer);
-        timings_end_blocks(block) = toc;
-    elseif block == 2
-        spaceNextImage(endBlock2Image_texture,startImage_texture,window_pointer);
-        timings_end_blocks(block) = toc;
-    elseif block == numberBlocks
-        spaceNextImage(endBlock3Image_texture,endImage_texture,window_pointer);
-        timings_end_blocks(block) = toc;
-    end 
+        if block == first_block
+            spaceNextImage(endBlock1Image_texture,startImage_texture,window_pointer);
+            timings_end_blocks(block) = toc;
+        elseif block == second_block
+            spaceNextImage(endBlock2Image_texture,startImage_texture,window_pointer);
+            timings_end_blocks(block) = toc;
+        elseif block == numberBlocks
+            spaceNextImage(endBlock3Image_texture,endImage_texture,window_pointer);
+            timings_end_blocks(block) = toc;
+        end
 end
 
 %% Finalize
 finalize;
+
+% t0 = clock;
+% while etime(clock, t0) < 10
+%   pause(0.05);  % Some dummy lines
+%   disp(clock);
+% end
